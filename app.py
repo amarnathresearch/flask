@@ -83,14 +83,25 @@ if __name__ == '__main__':
         print(result)
         return "tested"
 
+    @app.route('/iris/input')
+    def iris_input():
+        return render_template("iris_input.html")
 
+        
 
     @app.route('/iris/test')
     def iris_test():
+
+        print(request.args)
+        f1 = request.args['f1']
+        f2 = request.args['f2']
+        f3 = request.args['f3']
+        f4 = request.args['f4']
         pkl_filename = './models/iris_model.pkl'
         with open(pkl_filename, 'rb') as file:
             pickle_model = pickle.load(file)
-        sample = [[6.4, 2.8, 5.6, 2.1]]
+            
+        sample = [[f1, f2, f3, f4]]
         Ypredict = pickle_model.predict(sample)
         print("Ypredict", Ypredict)
         return str(Ypredict[0])
