@@ -89,7 +89,7 @@ if __name__ == '__main__':
 
         
 
-    @app.route('/iris/test')
+    @app.route('/iris/test', methods=['GET'])
     def iris_test():
 
         print(request.args)
@@ -105,5 +105,33 @@ if __name__ == '__main__':
         Ypredict = pickle_model.predict(sample)
         print("Ypredict", Ypredict)
         return str(Ypredict[0])
+
+
+    @app.route('/admit/input')
+    def admit_input():
+        return render_template("admission_input.html")
+
+# http://localhost:5000/admit/test?gre=300&gpa=3.7&rank=3
+    @app.route('/admit/test', methods=['GET'])
+    def admit_test():
+
+        print(request.args)
+        gre = request.args['gre']
+        gpa = request.args['gpa']
+        rank = request.args['rank']
+        # pkl_filename = './models/sam_admission_model.pkl'
+        # pkl_filename = './models/jayanth_admit_model.pkl'
+        # pkl_filename = './models/sam_admission_model_v1.pkl'
+        pkl_filename = './models/rimjhim_admit_model.pkl'
+        with open(pkl_filename, 'rb') as file:
+            pickle_model = pickle.load(file)
+            
+        sample = [[gre, gpa, rank]]
+        Ypredict = pickle_model.predict(sample)
+        print("Ypredict", Ypredict)
+        return str(Ypredict[0])
+
+# Sentiment analysis
+
 
     app.run(host='0.0.0.0', debug=True, port=5000)
