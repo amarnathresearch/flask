@@ -83,12 +83,16 @@ if __name__ == '__main__':
         print(result)
         return "tested"
 
-    # IRIS data linear regression
+
+
     @app.route('/iris/test')
     def iris_test():
-        # Load from file
-with open(pkl_filename, 'rb') as file:
-    pickle_model = pickle.load(file)
-
+        pkl_filename = './models/iris_model.pkl'
+        with open(pkl_filename, 'rb') as file:
+            pickle_model = pickle.load(file)
+        sample = [[6.4, 2.8, 5.6, 2.1]]
+        Ypredict = pickle_model.predict(sample)
+        print("Ypredict", Ypredict)
+        return str(Ypredict[0])
 
     app.run(host='0.0.0.0', debug=True, port=5000)
